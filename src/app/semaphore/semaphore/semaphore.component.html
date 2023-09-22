@@ -1,0 +1,65 @@
+<div class="flex flex-col items-center justify-center min-h-[80vh] min-w-full">
+  <h2 class="text-2xl mb-4">Control de Semáforos</h2>
+
+  <div>
+    <button
+      (click)="sendStateSemaphore(1)"
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    >
+      Iniciar Semáforos
+    </button>
+
+    <button
+      (click)="sendStateSemaphore(2)"
+      class="ml-2 bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
+    >
+      Modo Warning
+    </button>
+
+    <button
+      (click)="sendStateSemaphore(3)"
+      class="ml-2 bg-red-400 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
+    >
+      Modo Esquina
+    </button>
+  </div>
+
+  <form (ngSubmit)="onSubmit()">
+    <div class="border mt-6 rounded-md px-14 py-4 min-w-[50vh]">
+      <div class="mt-4">
+        <label class="block mb-2">Frecuencia:</label>
+        <input
+          type="number"
+          class="border rounded px-2 py-1 w-full"
+          placeholder="Frecuencia en segundos"
+          formControlName="frequency"
+          id="frequency"
+        />
+
+        <!-- <div *ngIf="submitted && f['frequency'].errors" class="invalid-feedback">
+        <div *ngIf="f['frequency'].errors['required']">
+          Frequency is required
+        </div>
+      </div> -->
+      </div>
+
+      <div class="mt-4">
+        <label class="block mb-2">Seleccione semáforo:</label>
+        <select
+          formControlName="selectedSemaphore"
+          class="border rounded px-2 py-1 w-full"
+        >
+          <option value="1">Semaforo 1</option>
+          <option value="2">Semaforo 2</option>
+        </select>
+      </div>
+      <button
+        type="submit"
+        (click)="onSubmit()"
+        class="mt-6 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Cambiar Estado
+      </button>
+    </div>
+  </form>
+</div>
