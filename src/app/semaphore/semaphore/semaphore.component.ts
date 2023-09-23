@@ -7,7 +7,6 @@ import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-semaphore',
   templateUrl: './semaphore.component.html',
-  styleUrls: ['./semaphore.component.css'],
 })
 export class SemaphoreComponent implements OnInit {
   semaphoreForm: FormGroup;
@@ -25,9 +24,9 @@ export class SemaphoreComponent implements OnInit {
 
   ngOnInit() {}
 
-  // get f(): { [key: string]: AbstractControl } {
-  //   return this.semaphoreForm.controls;
-  // }
+  get f(): { [key: string]: AbstractControl } {
+    return this.semaphoreForm.controls;
+  }
 
   onSubmit(): void {
     this.submitted = true;

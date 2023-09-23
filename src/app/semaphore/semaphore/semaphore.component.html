@@ -36,11 +36,14 @@
           id="frequency"
         />
 
-        <!-- <div *ngIf="submitted && f['frequency'].errors" class="invalid-feedback">
-        <div *ngIf="f['frequency'].errors['required']">
-          Frequency is required
+        <div
+          *ngIf="submitted && f['frequency'].errors"
+          class="invalid-feedback"
+        >
+          <div *ngIf="f['frequency'].errors['required']">
+            Frequency is required
+          </div>
         </div>
-      </div> -->
       </div>
 
       <div class="mt-4">
