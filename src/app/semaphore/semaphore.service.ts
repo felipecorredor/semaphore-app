@@ -9,8 +9,17 @@ export class SemaphoreService {
 
   constructor(private readonly http: HttpClient) {}
 
+  private getAccessToken(): string | null {
+    return localStorage.getItem('access_token');
+  }
+
   setSemaphoreState(newState: number) {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const access_token = this.getAccessToken();
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${access_token}`,
+    });
     return this.http.post(
       `${this.API_URL}/set_state`,
       { state: newState },
@@ -19,7 +28,11 @@ export class SemaphoreService {
   }
 
   setSemaphoreFreq(frequency: number, semaphore: number) {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const access_token = this.getAccessToken();
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${access_token}`,
+    });
     const body = { freq: frequency, semaforo: semaphore };
 
     return this.http.post(`${this.API_URL}/set_freq`, body, { headers });

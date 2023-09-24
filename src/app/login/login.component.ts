@@ -1,38 +1,77 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoginService } from './login.service';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
 })
-export class LoginComponent {
-  constructor(private loginService: LoginService, private router: Router) {}
+export class LoginComponent implements OnInit {
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    private readonly formBuilder: FormBuilder
+  ) {}
+
+  private subscriptions: Subscription[] = [];
+
+  submitted = false;
+  errorMessage: string | null = null;
 
   profileForm = new FormGroup({
-    username: new FormControl(''),
+    userName: new FormControl(''),
     password: new FormControl(''),
   });
 
-  onSubmit() {
-    // TODO: Use EventEmitter with form value
-    console.warn(this.profileForm.value);
+  ngOnInit(): void {
+    this.profileForm = this.initForm();
   }
 
-  handleLogin(): void {
-    console.log('handleLogin');
-    const loginSuccess = true;
+  onSubmit() {
+    this.submitted = true;
 
-    console.warn(this.profileForm.value);
+    const userName = this.profileForm.value.userName as string;
+    const password = this.profileForm.value.password as string;
 
-    if (loginSuccess) {
-      console.log('Inicio de sesión exitoso');
-      localStorage.setItem('token', JSON.stringify('your_token_here'));
-      this.router.navigate(['/semaphore']);
-      this.loginService.loginSuccessEvent.emit(true);
-    } else {
-      console.log('Inicio de sesión fallido');
-    }
+    const subscription = this.loginService.login(userName, password).subscribe({
+      next: (response) => {
+        console.log('Response', response);
+        localStorage.setItem(
+          'access_token',
+          JSON.stringify(response.access_token)
+        );
+        this.router.navigate(['/semaphore']);
+        this.loginService.loginSuccessEvent.emit(true);
+      },
+      error: (error) => {
+        console.error('Error login:', error);
+        this.errorMessage = 'Credenciales invalidas, intenta de nuevo';
+      },
+    });
+
+    this.subscriptions.push(subscription);
+  }
+
+  get f(): { [key: string]: AbstractControl } {
+    return this.profileForm.controls;
+  }
+
+  initForm(): FormGroup {
+    return this.formBuilder.group({
+      userName: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 }

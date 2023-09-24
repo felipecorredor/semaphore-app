@@ -1,6 +1,10 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+interface LoginResponse {
+  access_token: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -12,9 +16,10 @@ export class LoginService {
   constructor(private readonly http: HttpClient) {}
 
   login(user: string, password: string) {
-    this.loginSuccessEvent.emit(true);
-    // const body = { user, password };
-    // const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    // return this.http.post(`${this.API_URL}/login`, body, { headers });
+    const body = { username: user, password };
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<LoginResponse>(`${this.API_URL}/login`, body, {
+      headers,
+    });
   }
 }
