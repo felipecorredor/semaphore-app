@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 import { SemaphoreService } from '../semaphore.service';
@@ -15,7 +15,7 @@ export class SemaphoreComponent {
 
   semaphoreForm = new FormGroup({
     frequency: new FormControl(''),
-    selectedSemaphore: new FormControl(''),
+    selectedSemaphore: new FormControl('1'),
   });
 
   private subscriptions: Subscription[] = [];

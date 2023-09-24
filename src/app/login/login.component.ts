@@ -44,10 +44,7 @@ export class LoginComponent implements OnInit {
     const subscription = this.loginService.login(userName, password).subscribe({
       next: (response) => {
         console.log('Response', response);
-        localStorage.setItem(
-          'access_token',
-          JSON.stringify(response.access_token)
-        );
+        localStorage.setItem('access_token', response.access_token);
         this.router.navigate(['/semaphore']);
         this.loginService.loginSuccessEvent.emit(true);
       },
