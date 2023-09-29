@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SemaphoreService {
-  private readonly API_URL = 'https://precedent-lion-8910.dataplicity.io';
-
   constructor(private readonly http: HttpClient) {}
 
   private getAccessToken(): string {
@@ -26,7 +25,11 @@ export class SemaphoreService {
   setSemaphoreState(state: number) {
     const headers = this.createHeaders();
 
-    return this.http.post(`${this.API_URL}/set_state`, { state }, { headers });
+    return this.http.post(
+      `${environment.url}/set_state`,
+      { state },
+      { headers }
+    );
   }
 
   setSemaphoreFreq(frequency: number, semaphore: number) {
@@ -34,6 +37,6 @@ export class SemaphoreService {
 
     const body = { freq: frequency, semaforo: semaphore };
 
-    return this.http.post(`${this.API_URL}/set_freq`, body, { headers });
+    return this.http.post(`${environment.url}/set_freq`, body, { headers });
   }
 }
