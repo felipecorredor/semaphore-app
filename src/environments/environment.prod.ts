@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  url: 'https://precedent-lion-8910.dataplicity.io',
+  DATAPLICITY_URL: 'https://precedent-lion-8910.dataplicity.io',
 };

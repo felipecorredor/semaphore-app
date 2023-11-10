@@ -26,7 +26,7 @@ export class SemaphoreService {
     const headers = this.createHeaders();
 
     return this.http.post(
-      `${environment.url}/set_state`,
+      `${environment.DATAPLICITY_URL}/set_state`,
       { state },
       { headers }
     );
@@ -37,6 +37,8 @@ export class SemaphoreService {
 
     const body = { freq: frequency, semaforo: semaphore };
 
-    return this.http.post(`${environment.url}/set_freq`, body, { headers });
+    return this.http.post(`${environment.DATAPLICITY_URL}/set_freq`, body, {
+      headers,
+    });
   }
 }
